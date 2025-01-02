@@ -33,9 +33,33 @@ class Solution {
             this.search(nums, target, left, mid-1)
         
     }
+
+    searchWithLoop(nums, target) {
+        
+        let left = 0, right = nums.length-1
+
+        while(left <= right) {
+            let mid = left + Math.floor((right-left)/2)
+
+            if(target > nums[mid]) {
+                left = mid+1
+            }
+            if(target < nums[mid]) {
+                right = mid-1
+            }
+            else {
+                console.log(nums[mid])
+                return mid 
+            }
+        }
+
+        return false
+
+    }
 }
 
 let inst = new Solution();
 let nums = [-1,0,2,4,6,8], target = 0
-console.log(inst.search(nums, target))
+console.log('Search :', inst.search(nums, target))
+console.log('Search with loop :', inst.searchWithLoop(nums, target))
 
