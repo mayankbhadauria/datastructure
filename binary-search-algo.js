@@ -54,7 +54,14 @@ class BinarySearchAlgo {
             root.right = this.delete(root.right, min.val)
         }
         } 
-
         return root
+    }
+
+    SearchBST(root, target) {
+        if(root == null) return null
+
+        if(target > root.val) return this.SearchBST(root.right, target)
+            else if(target < root.val) return this.SearchBST(root.left, target)
+                    else return true
     }
 }
