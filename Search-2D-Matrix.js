@@ -20,71 +20,49 @@ class Solution {
     // This solution first finds potential ROW using binary search and than again find element in ROW using BST 
     searchMatrix(matrix, target) {
 
-        let row = matrix.length-1
-        let col = matrix[0].length-1
-    
-        let top=0, bottom=row, mid // top, bottom : 0, 2    
-       
-        while(top <= bottom) {
+        let R = matrix.length-1 // ROW
+        let C = matrix[0].length-1 //Column
 
-            mid = top + Math.floor((bottom-top)/2)
+        let top = 0, bot = R
 
-            if(matrix[mid][col] < target) {
-                top = mid + 1
+        if(target < matrix[0][0] || target > matrix[R][C]) return false
+
+        while(top<=bot) {
+
+            let mid = top + Math.floor((bot-top)/2)
+
+            if(target <= matrix[mid][C] && target >= matrix[mid][0]) {
+                return this.bstSearch(matrix[mid], 0, C, target, mid)
             }
-            else if(matrix[mid][0] > target) {
-                bottom = mid - 1
-            }
-            else if(matrix[mid][col] == target || matrix[mid][0]== target) {
-                return true
+            else if(target < matrix[mid][0]) {
+                bot = mid-1
             }
             else {
-                break
+                top = mid+1 
             }
+              
         }
-
-        if(top > bottom) return false
-
-        let l = 0, r = col
-
-        let ROW = mid
-
-        while(l <= r) {
-
-            let rowMid = l + Math.floor((r-l)/2)
-
-            if(matrix[ROW][rowMid] < target) l=rowMid+1
-
-            else if(matrix[ROW][rowMid] > target) r=rowMid-1
-
-            else if(matrix[ROW][rowMid] == target) return true
-            
-            else return false       
-        }
-
-        return false
-
     }
-    // This solution search matrix in one pass as matrix is already sorted, binary search between first [0][0] and last [m][n]
-    searchMatrixOnePass(matrix, target) {
-        let ROWS = matrix.length, COLS = matrix[0].length;
 
-        let l = 0, r = ROWS * COLS - 1;
-        while (l <= r) {
-            let m = l + Math.floor((r - l) / 2);
-            let row = Math.floor(m / COLS), col = m % COLS;
-            if (target > matrix[row][col]) {
-                l = m + 1;
-            } else if (target < matrix[row][col]) {
-                r = m - 1;
-            } else {
-                return true;
-            }
-        }
-        return false;
+    bstSearch(M, l, r, t, R) {
+
+        if(l > r) return false
+
+        let mid = l + Math.floor((r-l)/2)
+
+        if(t == M[mid]) return [R, mid]
+
+        if(t < M[mid]) return this.bstSearch(M, l, mid-1, t, R)
+        
+        else return this.bstSearch(M, mid+1, r, t, R)
+        
     }
 }
 
 
 let inst = new Solution()
-console.log(inst.searchMatrix([[1,2,4,8],[10,11,12,13],[14,20,30,40], [50,53,56,60], [61,63,65,70]], 53))
+console.log(inst.searchMatrix([[]], 0))
+
+//console.log(inst.bstSearch([[50,53,56,60]], 0, 3, 60))
+
+
