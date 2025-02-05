@@ -63,3 +63,37 @@ let nums = [-1,0,2,4,6,8], target = 0
 console.log('Search :', inst.search(nums, target))
 console.log('Search with loop :', inst.searchWithLoop(nums, target))
 
+
+
+
+
+
+
+
+
+
+
+//  if (node.val <= min || node.val >= max) {
+
+
+isBinarySearchTree(root) {
+    // Helper function that checks if node's value is within valid range
+    function isValidBST(node, min, max) {
+        // Empty node is valid
+        if (!node) return true;
+        
+        // Check if current node's value is within valid range
+        if (node.val <= min || node.val >= max) {
+            return false;
+        }
+        
+        // Recursively check left and right subtrees
+        // Left subtree values must be less than current node's value
+        // Right subtree values must be greater than current node's value
+        return isValidBST(node.left, min, node.val) && 
+               isValidBST(node.right, node.val, max);
+    }
+    
+    return isValidBST(root, -Infinity, Infinity);
+}
+
