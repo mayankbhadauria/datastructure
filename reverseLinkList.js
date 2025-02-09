@@ -23,7 +23,7 @@ class Solution {
             cur = next
         }
 
-        head = cur
+        head = prev
 
         return head
     }
